@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="initial-scale=1, maximum-scale=1, user-scalable=no, width=device-width">
+    <title></title>
+
+    <link rel="stylesheet" href="http://openlayers.org/en/v3.15.1/css/ol.css" type="text/css">
+    <link href="lib/ionic/css/ionic.css" rel="stylesheet">
+    <link href="css/style.css" rel="stylesheet">
+
+    <!-- IF using Sass (run gulp sass first), then uncomment below and remove the CSS includes above
+    <link href="css/ionic.app.css" rel="stylesheet">
+    -->
+
+    <!-- ionic/angularjs js -->
+    <script src="lib/ionic/js/ionic.bundle.js"></script>
+
+    <!-- cordova script (this will be a 404 during development) -->
+    <script src="cordova.js"></script>
+
+    <!-- your app's js -->
+    <script src="http://openlayers.org/en/v3.15.1/build/ol.js"></script>
+    <script src="js/app.js"></script>
+  </head>
+  <body ng-app="starter" ng-controller="MainCtrl">
+
+  <ion-side-menus>
+
+    <!-- Center content -->
+    <ion-side-menu-content drag-content="false">
+      <ion-header-bar class="bar-dark">
+        <button menu-toggle="left" class="button button-icon icon ion-navicon"></button>
+        <h1 class="title">Map</h1>
+      </ion-header-bar>
+      <ion-content>
+        <div id="map" class="full-map"></div>
+      </ion-content>
+    </ion-side-menu-content>
+
+    <!-- Left menu -->
+    <ion-side-menu side="left">
+      <ion-header-bar class="bar-dark">
+        <h1 class="title">Settings</h1>
+      </ion-header-bar>
+      <ion-content>
+        <div class="list" ng-controller="SourceCtrl">
+          
+          <div class="item item-divider"> 
+            Map Sources
+          </div>
+          
+          <ion-radio ng-repeat="source in sourceList"
+                     ng-value="source.value"
+                     ng-model="data.sourceChosen"
+                     ng-change="sourceChange(data.sourceChosen)"
+                     name="source">
+            {{ source.text }}
+          </ion-radio>
+                    
+        </div>
+        <div class="toggle" ng-controller="MeasureCtrl">
+          <div class="item item-divider"> 
+            Measure Switch
+          </div>
+          <ion-toggle ng-model="data.measureMode"
+                      toggle-class="toggle-calm"
+                      ng-change="modeChange(data.measureMode)">
+            Measure Mode
+          </ion-toggle>
+          <ion-radio ng-repeat="mode in modes"
+                     ng-value="mode.value"
+                     ng-model="data.modeChosen"
+                     ng-change="modeTypeChange(data.modeChosen)"
+                     ng-show="data.measureMode"
+                     name="mode">
+            {{ mode.text }}
+          </ion-radio>
+        </div>
+        <div class="toggle" ng-controller="LocationCtrl">
+          <div class="item item-divider"> 
+            Location Switch
+          </div>
+          <ion-toggle ng-model="data.location"
+                      toggle-class="toggle-calm"
+                      ng-change="locationSwitch(data.location)">
+            Location
+          </ion-toggle>
+          <ion-toggle ng-model="data.direction"
+                      toggle-class="toggle-calm"
+                      ng-change="directionSwitch(data.direction)">
+            Direction
+          </ion-toggle>
+          <ion-toggle ng-model="data.track"
+                      toggle-class="toggle-calm"
+                      ng-change="trackSwitch(data.track)">
+            Track
+          </ion-toggle>
+        </div>
+      </ion-content>
+    </ion-side-menu>
+
+  </ion-side-menus>
+  
+  </body>
+</html>
