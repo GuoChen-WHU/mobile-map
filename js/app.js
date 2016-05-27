@@ -60,7 +60,6 @@ angular.module('starter', ['ionic'])
     layers: [osmLayer, MapQuestLayer, MapQuestSatLayer, vectorLayer],
     view: view
   }); 
-  
 })
 
 .controller('SourceCtrl', function($scope) {
@@ -458,5 +457,52 @@ angular.module('starter', ['ionic'])
     locationLayer.getSource().removeFeature(trackFeature);
     trackFeature = null;
     trackEvent = null;
+  }
+})
+
+.controller('StereoCtrl', function($scope) {
+  $scope.data = {
+    stereo: false
+  };
+  
+  $scope.stereoSwitch = function(stereo) {
+    if (stereo) {
+      enableStereo();
+    } else {
+      disableStereo();
+    }
+  }
+  
+  var ol3d, scene, building;
+  
+  function enableStereo() {
+    ol3d = new olcs.OLCesium({map: $scope.map});
+    scene = ol3d.getCesiumScene();
+    var instance = new Cesium.GeometryInstance({
+      geometry : new Cesium.BoxGeometry.fromDimensions({
+        vertexFormat: Cesium.PerInstanceColorAppearance.VERTEX_FORMAT,
+        dimensions: new Cesium.Cartesian3(85.5746, 18.5121, 20)
+      }),
+      modelMatrix: Cesium.Matrix4.multiplyByTranslation(
+        Cesium.Transforms.eastNorthUpToFixedFrame(Cesium.Cartesian3.fromDegrees(114.3546, 30.5283)),
+            new Cesium.Cartesian3(0.0, 0.0, 0.0), new Cesium.Matrix4()),
+      attributes : {
+        color : Cesium.ColorGeometryInstanceAttribute.fromColor(Cesium.Color.RED.withAlpha(0.5))
+      }
+    });
+
+    scene.primitives.add(new Cesium.Primitive({
+      geometryInstances : instance,
+      appearance : new Cesium.PerInstanceColorAppearance()
+    }));
+    ol3d.setEnabled(true);
+  }
+  
+  function disableStereo() {
+    ol3d.setEnabled(false);
+    $scope.map.getView().setRotation(0);
+    ol3d = null;
+    scene = null;
+    building = null;
   }
 })

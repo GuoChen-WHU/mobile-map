@@ -21,6 +21,8 @@
 
     <!-- your app's js -->
     <script src="http://openlayers.org/en/v3.15.1/build/ol.js"></script>
+    <script src="lib/Cesium/Cesium.js"></script>
+    <script src="lib/ol3-cesium/ol3cesium.js"></script>
     <script src="js/app.js"></script>
   </head>
   <body ng-app="starter" ng-controller="MainCtrl">
@@ -95,6 +97,16 @@
                       toggle-class="toggle-calm"
                       ng-change="trackSwitch(data.track)">
             Track
+          </ion-toggle>
+        </div>
+        <div class="toggle" ng-controller="StereoCtrl">
+          <div class="item item-divider"> 
+            3D Switch
+          </div>
+          <ion-toggle ng-model="data.stereo"
+                      toggle-class="toggle-calm"
+                      ng-change="stereoSwitch(data.stereo)">
+            3D Mode
           </ion-toggle>
         </div>
       </ion-content>
